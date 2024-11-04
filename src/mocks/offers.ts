@@ -1,7 +1,7 @@
 import { CityName } from '../const';
 import { Offer } from '../types/offer';
 
-export const offers: Offer[] = [
+export const OFFERS_MOCK: Offer[] = [
   {
     id: 'ee08b6c0-5bc7-42b3-b8de-e2ac4b3b4470',
     title: 'Wood and stone place',

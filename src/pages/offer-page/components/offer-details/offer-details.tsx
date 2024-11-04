@@ -1,6 +1,6 @@
-import { Offer } from '../../types/offer';
-import { capitalize } from '../../utils/common';
-import getRatingPercentage from '../../utils/offer';
+import { Offer } from '../../../../types/offer';
+import { capitalize } from '../../../../utils/common';
+import getRatingPercentage from '../../../../utils/offer';
 import ReviewForm from '../review-form/review-form';
 
 type OffersDetailsProps = {
@@ -14,8 +14,8 @@ function OffersDetails({ offer }: OffersDetailsProps): JSX.Element {
     <section className="offer">
       <div className="offer__gallery-container container">
         <div className="offer__gallery">
-          {offer.images.map((image) => (
-            <div className="offer__image-wrapper" key={image}>
+          {offer.images.map((image, index) => (
+            <div className="offer__image-wrapper" key={index}>
               <img className="offer__image" src={image} alt="Photo studio" />
             </div>
           ))}
@@ -87,9 +87,7 @@ function OffersDetails({ offer }: OffersDetailsProps): JSX.Element {
               )}
             </div>
             <div className="offer__description">
-              <p className="offer__text">
-                {offer.description}
-              </p>
+              <p className="offer__text" dangerouslySetInnerHTML={{ __html: offer.description }} />
             </div>
           </div>
           <section className="offer__reviews reviews">

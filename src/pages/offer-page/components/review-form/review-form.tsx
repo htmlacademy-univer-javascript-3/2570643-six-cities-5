@@ -1,5 +1,5 @@
 import { ChangeEvent, Fragment, useState } from 'react';
-import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../const';
+import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../../../const';
 
 const ratingMap = {
   '1': 'terribly',
@@ -10,19 +10,18 @@ const ratingMap = {
 };
 
 function ReviewForm(): JSX.Element {
-  const [comment, setComment] = useState('');
-  const [rating, setRating] = useState('');
+  const [data, setData] = useState({comment: '', rating: ''});
   const isValid =
-    comment.length >= MIN_COMMENT_LENGTH &&
-    comment.length <= MAX_COMMENT_LENGTH &&
-    rating !== '';
+    data.comment.length >= MIN_COMMENT_LENGTH &&
+    data.comment.length <= MAX_COMMENT_LENGTH &&
+    data.rating !== '';
 
   function handleTextareaChange(evt: ChangeEvent<HTMLTextAreaElement>) {
-    setComment(evt.target.value);
+    setData(state => ({ ...state, comment: evt.target.value }))
   }
 
   function handleInputChange(evt: ChangeEvent<HTMLInputElement>) {
-    setRating(evt.target.value);
+    setData(state => ({ ...state, rating: evt.target.value }))
   }
 
   return (
@@ -38,7 +37,7 @@ function ReviewForm(): JSX.Element {
                 value={score}
                 id={`${score}-stars`}
                 type="radio"
-                checked={rating === score}
+                checked={data.rating === score}
                 onChange={handleInputChange}
               />
               <label
@@ -58,7 +57,7 @@ function ReviewForm(): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={comment}
+        value={data.comment}
         onChange={handleTextareaChange}
       />
       <div className="reviews__button-wrapper">

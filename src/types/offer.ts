@@ -5,7 +5,7 @@ import { Host } from './host';
 export type OfferPreview = {
   id: string;
   title: string;
-  type: string;
+  type: 'apartment' | 'house' | 'hotel' | 'room';
   price: number;
   city: City;
   location: Location;

@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { AppRoute } from '../../const';
 import { Offer } from '../../types/offer';
 import { Navigate, useParams } from 'react-router-dom';
-import OfferDetails from '../../components/offer-details/offer-details';
+import OfferDetails from './components/offer-details/offer-details';
 import Header from '../../components/header/header';
 
 type OfferPageProps = {

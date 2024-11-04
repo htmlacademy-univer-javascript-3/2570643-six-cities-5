@@ -10,6 +10,8 @@ type PlaceCardProps = {
   offer: OfferPreview;
   block: string;
   imageSize?: PlaceCardImageSize;
+  onMouseOver?: () => void;
+  onMouseLeave?: () => void;
 };
 
 const sizeMap: Record<PlaceCardImageSize, { width: string; height: string }> = {
@@ -17,11 +19,15 @@ const sizeMap: Record<PlaceCardImageSize, { width: string; height: string }> = {
   big: { width: '260', height: '200' }
 };
 
-function PlaceCard({ offer, block, imageSize = 'big' }: PlaceCardProps): JSX.Element {
+function PlaceCard({ offer, block, imageSize = 'big', onMouseOver, onMouseLeave }: PlaceCardProps): JSX.Element {
   const { id, title, type, price, isPremium, rating, previewImage } = offer;
 
   return (
-    <article className={`${block}__card place-card`}>
+    <article 
+      className={`${block}__card place-card`}
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
+    >
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
