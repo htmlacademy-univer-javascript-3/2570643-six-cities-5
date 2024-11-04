@@ -10,8 +10,7 @@ type OffersListProps = {
 };
 
 function OffersList({ offers }: OffersListProps): JSX.Element {
-  // eslint-disable-next-line
-  const [activeOfferId, setActiveOfferId] = useState<OfferPreview['id'] | null>(null);
+  const [, setActiveOfferId] = useState<OfferPreview['id'] | null>(null);
   const activeCityName = CityName.Amsterdam;
 
   return (
