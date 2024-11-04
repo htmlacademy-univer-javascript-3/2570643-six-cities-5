@@ -23,7 +23,7 @@ function PlaceCard({ offer, block, imageSize = 'big', onMouseOver, onMouseLeave 
   const { id, title, type, price, isPremium, rating, previewImage } = offer;
 
   return (
-    <article 
+    <article
       className={`${block}__card place-card`}
       onMouseOver={onMouseOver}
       onMouseLeave={onMouseLeave}

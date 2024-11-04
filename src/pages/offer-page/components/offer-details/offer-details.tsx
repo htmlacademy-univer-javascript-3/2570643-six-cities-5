@@ -15,6 +15,7 @@ function OffersDetails({ offer }: OffersDetailsProps): JSX.Element {
       <div className="offer__gallery-container container">
         <div className="offer__gallery">
           {offer.images.map((image, index) => (
+            // eslint-disable-next-line
             <div className="offer__image-wrapper" key={index}>
               <img className="offer__image" src={image} alt="Photo studio" />
             </div>

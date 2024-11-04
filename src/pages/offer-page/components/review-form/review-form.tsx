@@ -17,11 +17,11 @@ function ReviewForm(): JSX.Element {
     data.rating !== '';
 
   function handleTextareaChange(evt: ChangeEvent<HTMLTextAreaElement>) {
-    setData(state => ({ ...state, comment: evt.target.value }))
+    setData((state) => ({ ...state, comment: evt.target.value }));
   }
 
   function handleInputChange(evt: ChangeEvent<HTMLInputElement>) {
-    setData(state => ({ ...state, rating: evt.target.value }))
+    setData((state) => ({ ...state, rating: evt.target.value }));
   }
 
   return (
