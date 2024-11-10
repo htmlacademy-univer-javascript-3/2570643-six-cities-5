@@ -1,6 +1,6 @@
 import { City } from './city';
 import { Location } from './location';
-import { Host } from './host';
+import { User } from './user';
 
 export type OfferPreview = {
   id: string;
@@ -19,7 +19,7 @@ export type Offer = OfferPreview & {
   description: string;
   bedrooms: number;
   goods: string[];
-  host: Host;
+  host: User;
   images: string[];
   maxAdults: number;
 };
