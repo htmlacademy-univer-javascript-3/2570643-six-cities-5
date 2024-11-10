@@ -65,7 +65,7 @@ export const OFFERS_MOCK: Offer[] = [
       zoom: 16
     },
     isFavorite: false,
-    isPremium: true,
+    isPremium: false,
     rating: 4.1,
     previewImage: 'https://14.design.htmlacademy.pro/static/hotel/7.jpg',
     description: 'Discover daily local life in city center, friendly neighborhood, clandestine casino, karaoke, old-style artisans, art gallery and artist studio downstairs.',

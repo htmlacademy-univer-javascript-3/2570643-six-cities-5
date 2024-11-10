@@ -6,4 +6,11 @@ function getWordEndingByCount(count: number) {
   return count !== 1 ? 's' : '';
 }
 
-export { capitalize, getWordEndingByCount };
+function formatDate(date: string) {
+  return new Date(date).toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric'
+  });
+}
+
+export { capitalize, getWordEndingByCount, formatDate };
