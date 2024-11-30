@@ -3,6 +3,106 @@ import { Offer } from '../types/offer';
 
 export const OFFERS_MOCK: Offer[] = [
   {
+    id: '71541052-1936-491e-a54a-e9349a4e74dd',
+    title: 'Waterfront with extraordinary view',
+    type: 'hotel',
+    price: 258,
+    city: {
+      name: CityName.Paris,
+      location: {
+        latitude: 48.85661,
+        longitude: 2.351499,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 48.868610000000004,
+      longitude: 2.342499,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 2.6,
+    previewImage: 'https://14.design.htmlacademy.pro/static/hotel/3.jpg',
+    description: 'I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!',
+    bedrooms: 5,
+    goods: [
+      'Wi-Fi',
+      'Kitchen',
+      'Laptop friendly workspace',
+      'Washer',
+      'Washing machine',
+      'Coffee machine',
+      'Baby seat',
+      'Cable TV',
+      'Fridge',
+      'Dishwasher',
+      'Heating'
+    ],
+    host: {
+      name: 'Angelina',
+      avatarUrl: 'https://14.design.htmlacademy.pro/static/host/avatar-angelina.jpg',
+      isPro: true
+    },
+    images: [
+      'https://14.design.htmlacademy.pro/static/hotel/14.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/5.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/8.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/6.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/1.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/12.jpg'
+    ],
+    maxAdults: 6
+  },
+  {
+    id: '1993543e-eda5-421f-8217-43ade4d00b96',
+    title: 'Nice, cozy, warm big bed apartment',
+    type: 'room',
+    price: 295,
+    city: {
+      name: CityName.Paris,
+      location: {
+        latitude: 48.85661,
+        longitude: 2.351499,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 48.858610000000006,
+      longitude: 2.330499,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 4.3,
+    previewImage: 'https://14.design.htmlacademy.pro/static/hotel/18.jpg',
+    description: 'A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.',
+    bedrooms: 1,
+    goods: [
+      'Heating',
+      'Coffee machine',
+      'Laptop friendly workspace',
+      'Towels',
+      'Wi-Fi',
+      'Breakfast',
+      'Cable TV'
+    ],
+    host: {
+      isPro: true,
+      name: 'Angelina',
+      avatarUrl: 'https://14.design.htmlacademy.pro/static/host/avatar-angelina.jpg'
+    },
+    images: [
+      'https://14.design.htmlacademy.pro/static/hotel/14.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/9.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/1.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/5.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/18.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/11.jpg'
+    ],
+    maxAdults: 1
+  },
+  {
     id: 'ee08b6c0-5bc7-42b3-b8de-e2ac4b3b4470',
     title: 'Wood and stone place',
     type: 'apartment',
