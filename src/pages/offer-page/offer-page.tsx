@@ -1,16 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 import { AppRoute, MAX_NEARBY_OFFERS_COUNT } from '../../const';
-import { Offer } from '../../types/offer';
 import { Navigate, useParams } from 'react-router-dom';
 import OfferDetails from './components/offer-details/offer-details';
 import Header from '../../components/header/header';
 import NearbyOffersList from './components/nearby-offers-list/nearby-offers-list';
+import { useAppSelector } from '../../hooks/use-app-selector';
 
-type OfferPageProps = {
-  offers: Offer[];
-}
-
-function OfferPage({ offers }: OfferPageProps): JSX.Element {
+function OfferPage(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
   const { offerId } = useParams();
   const offer = offers.find((item) => item.id === offerId);
 

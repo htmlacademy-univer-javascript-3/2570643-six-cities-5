@@ -7,20 +7,20 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { Offer } from '../../types/offer';
+import { setOffers } from '../../store/action';
+import { OFFERS_MOCK } from '../../mocks/offers-mock';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
-type AppProps = {
-  offers: Offer[];
-}
-
-function App({ offers }: AppProps): JSX.Element {
+function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  dispatch(setOffers(OFFERS_MOCK));
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Root}
-            element={<MainPage offers={offers} />}
+            element={<MainPage />}
           />
           <Route
             path={AppRoute.Login}
@@ -32,13 +32,13 @@ function App({ offers }: AppProps): JSX.Element {
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.Auth}
               >
-                <FavoritesPage offers={offers} />
+                <FavoritesPage />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.OfferId}
-            element={<OfferPage offers={offers} />}
+            element={<OfferPage />}
           />
           <Route
             path='*'
