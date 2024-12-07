@@ -15,6 +15,13 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN'
 }
 
+export enum SortingOptions {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  TopRatedFirst = 'Top rated first'
+}
+
 export enum CityName {
   Paris = 'Paris',
   Cologne = 'Cologne',
