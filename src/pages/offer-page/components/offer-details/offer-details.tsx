@@ -1,7 +1,7 @@
 import { REVIEWS_MOCK } from '../../../../mocks/reviews-mock';
 import { Offer } from '../../../../types/offer';
 import { capitalize } from '../../../../utils/common';
-import getRatingPercentage from '../../../../utils/offer';
+import { getRatingPercentage } from '../../../../utils/offer';
 import ReviewForm from '../review-form/review-form';
 import ReviewList from '../review-list/review-list';
 import Map from '../../../../components/map/map';

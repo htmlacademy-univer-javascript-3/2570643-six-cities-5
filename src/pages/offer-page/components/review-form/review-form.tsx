@@ -16,13 +16,13 @@ function ReviewForm(): JSX.Element {
     data.comment.length <= MAX_COMMENT_LENGTH &&
     data.rating !== '';
 
-  function handleTextareaChange(evt: ChangeEvent<HTMLTextAreaElement>) {
+  const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setData((state) => ({ ...state, comment: evt.target.value }));
-  }
+  };
 
-  function handleInputChange(evt: ChangeEvent<HTMLInputElement>) {
+  const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setData((state) => ({ ...state, rating: evt.target.value }));
-  }
+  };
 
   return (
     <form className="reviews__form form" action="#" method="post">

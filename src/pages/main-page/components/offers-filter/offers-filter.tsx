@@ -1,18 +1,46 @@
-function OffersFilter(): JSX.Element {
+import { useState } from 'react';
+import { SortingOptions } from '../../../../const';
+
+type OffersFilterProps = {
+  activeOption: SortingOptions;
+  onChange: (sortingOption: SortingOptions) => void;
+}
+
+function OffersFilter({activeOption, onChange}: OffersFilterProps): JSX.Element {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+
+  const handleFilterClick = () => {
+    setIsVisible((wasVisible) => !wasVisible);
+  };
+
+  const handleOptionClick = (option: SortingOptions) => {
+    onChange(option);
+  };
+
   return (
     <form className="places__sorting" action="#" method="get">
-      <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0}>
+      <span className="places__sorting-caption">Sort by </span>
+      <span
+        className="places__sorting-type"
+        tabIndex={0}
+        onClick={handleFilterClick}
+      >
         Popular
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select" />
         </svg>
       </span>
-      <ul className="places__options places__options--custom places__options--opened">
-        <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-        <li className="places__option" tabIndex={0}>Price: low to high</li>
-        <li className="places__option" tabIndex={0}>Price: high to low</li>
-        <li className="places__option" tabIndex={0}>Top rated first</li>
+      <ul className={`places__options places__options--custom${isVisible ? ' places__options--opened' : ''}`}>
+        {Object.values(SortingOptions).map((option) => (
+          <li
+            key={option}
+            className={`places__option${option === activeOption ? ' places__option--active' : ''}`}
+            tabIndex={0}
+            onClick={() => handleOptionClick(option)}
+          >
+            {option}
+          </li>
+        ))}
       </ul>
     </form>
   );

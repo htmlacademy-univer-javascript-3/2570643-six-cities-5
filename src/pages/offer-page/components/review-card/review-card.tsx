@@ -1,6 +1,6 @@
 import { Review } from '../../../../types/review';
 import { formatDate } from '../../../../utils/common';
-import getRatingPercentage from '../../../../utils/offer';
+import { getRatingPercentage } from '../../../../utils/offer';
 
 type ReviewCardProps = {
   review: Review;

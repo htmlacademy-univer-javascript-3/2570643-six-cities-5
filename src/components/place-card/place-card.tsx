@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { OfferPreview } from '../../types/offer';
 import { capitalize } from '../../utils/common';
-import getRatingPercentage from '../../utils/offer';
+import { getRatingPercentage } from '../../utils/offer';
 
 type PlaceCardImageSize = 'little' | 'big';
 
