@@ -25,7 +25,7 @@ function OffersFilter({activeOption, onChange}: OffersFilterProps): JSX.Element 
         tabIndex={0}
         onClick={handleFilterClick}
       >
-        Popular
+        {activeOption}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select" />
         </svg>

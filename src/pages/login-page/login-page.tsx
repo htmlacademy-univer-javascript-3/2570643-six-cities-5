@@ -1,8 +1,46 @@
 import { Helmet } from 'react-helmet-async';
-import { AppRoute } from '../../const';
-import { Link } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { Link, useNavigate } from 'react-router-dom';
+import { FormEvent, useEffect, useRef } from 'react';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { login } from '../../store/api-actions';
+import { toast } from 'react-toastify';
 
 function LoginPage(): JSX.Element {
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const activeCity = useAppSelector((state) => state.activeCity);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(AppRoute.Root);
+    }
+  }, [authorizationStatus, navigate]);
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (emailRef.current !== null && passwordRef.current !== null) {
+      const email = emailRef.current.value;
+      const password = passwordRef.current.value;
+
+      const regex = /^(?=.*[a-zA-Z])(?=.*\d)/;
+      if (!regex.test(password)) {
+        toast.warning('Password must contain at least 1 letter (all latin) and at least 1 digit');
+        return;
+      }
+
+      dispatch(login({
+        email,
+        password,
+      }));
+    }
+  };
+
   return (
     <div className="page page--gray page--login">
       <Helmet>
@@ -24,23 +62,37 @@ function LoginPage(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form className="login__form form" onSubmit={handleSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" type="email" name="email" placeholder="Email" required />
+                <input
+                  className="login__input form__input"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  ref={emailRef}
+                  required
+                />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required />
+                <input
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  ref={passwordRef}
+                  required
+                />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link to={AppRoute.Root} className="locations__item-link">
+                <span>{activeCity.name}</span>
+              </Link>
             </div>
           </section>
         </div>
