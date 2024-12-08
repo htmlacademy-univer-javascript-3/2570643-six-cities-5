@@ -4,6 +4,9 @@ import App from './components/app/app';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import 'leaflet/dist/leaflet.css';
+import { fetchOffers } from './store/api-actions';
+
+store.dispatch(fetchOffers());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

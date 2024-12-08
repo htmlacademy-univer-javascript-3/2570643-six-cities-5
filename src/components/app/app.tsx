@@ -7,13 +7,18 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { setOffers } from '../../store/action';
-import { OFFERS_MOCK } from '../../mocks/offers-mock';
-import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import Spinner from '../spinner/spinner';
 
 function App(): JSX.Element {
-  const dispatch = useAppDispatch();
-  dispatch(setOffers(OFFERS_MOCK));
+  const isOffetsDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+
+  if (isOffetsDataLoading) {
+    return (
+      <Spinner />
+    );
+  }
+
   return (
     <HelmetProvider>
       <BrowserRouter>

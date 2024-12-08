@@ -15,6 +15,10 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN'
 }
 
+export enum APIRoute {
+  Offers = '/offers'
+}
+
 export enum SortingOptions {
   Popular = 'Popular',
   PriceLowToHigh = 'Price: low to high',
