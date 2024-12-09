@@ -1,5 +1,6 @@
 import { OfferPreview } from '../../../../types/offer';
-import PlaceCard from '../../../../components/place-card/place-card';
+import { PlaceCard } from '../../../../components/place-card/place-card';
+import { memo } from 'react';
 
 type OffersListProps = {
   offers: OfferPreview[];
@@ -8,7 +9,7 @@ type OffersListProps = {
   onMouseLeave?: () => void;
 };
 
-function OffersList({ offers, block, onMouseOver, onMouseLeave }: OffersListProps): JSX.Element {
+function OffersListComponent({ offers, block, onMouseOver, onMouseLeave }: OffersListProps): JSX.Element {
   return (
     <>
       {offers.map((offer) => (
@@ -24,4 +25,4 @@ function OffersList({ offers, block, onMouseOver, onMouseLeave }: OffersListProp
   );
 }
 
-export default OffersList;
+export const OffersList = memo(OffersListComponent);

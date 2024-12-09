@@ -1,12 +1,13 @@
 import { Offer, OfferPreview } from '../../../../types/offer';
 import { capitalize } from '../../../../utils/common';
 import { getRatingPercentage } from '../../../../utils/offer';
-import ReviewForm from '../review-form/review-form';
-import ReviewList from '../review-list/review-list';
-import Map from '../../../../components/map/map';
+import { ReviewForm } from '../review-form/review-form';
+import { ReviewList } from '../review-list/review-list';
+import { Map } from '../../../../components/map/map';
 import { Review } from '../../../../types/review';
 import { AuthorizationStatus } from '../../../../const';
 import { useAppSelector } from '../../../../hooks/use-app-selector';
+import { getAuthorizationStatus } from '../../../../store/user-data/selectors';
 
 type OffersDetailsProps = {
   offer: Offer;
@@ -16,7 +17,7 @@ type OffersDetailsProps = {
 
 function OffersDetails({ offer, offersNearby, offerReviews }: OffersDetailsProps): JSX.Element {
   const host = offer.host;
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     <section className="offer">

@@ -3,11 +3,13 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { logout } from '../../store/api-actions';
+import { memo } from 'react';
+import { getAuthorizationStatus, getUserInfo } from '../../store/user-data/selectors';
 
-function Header(): JSX.Element {
+function HeaderComponent(): JSX.Element {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userData = useAppSelector((state) => state.userData);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userInfo = useAppSelector(getUserInfo);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -26,19 +28,19 @@ function Header(): JSX.Element {
             <ul className="header__nav-list">
               {authorizationStatus === AuthorizationStatus.Auth ? (
                 <>
-                  {userData &&
+                  {userInfo &&
                     <li className="header__nav-item user">
                       <Link to={AppRoute.Favorites} className="header__nav-link header__nav-link--profile">
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                           <img
                             className="header__avatar user__avatar"
-                            src={userData.avatarUrl}
+                            src={userInfo.avatarUrl}
                             width="20"
                             height="20"
-                            alt={userData.name}
+                            alt={userInfo.name}
                           />
                         </div>
-                        <span className="header__user-name user__name">{userData.name}</span>
+                        <span className="header__user-name user__name">{userInfo.name}</span>
                         <span className="header__favorite-count">0</span>
                       </Link>
                     </li>}
@@ -59,4 +61,4 @@ function Header(): JSX.Element {
   );
 }
 
-export default Header;
+export const Header = memo(HeaderComponent);

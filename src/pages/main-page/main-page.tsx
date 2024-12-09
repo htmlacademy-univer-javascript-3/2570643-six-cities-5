@@ -1,35 +1,42 @@
 import { Helmet } from 'react-helmet-async';
 import { OfferPreview } from '../../types/offer';
-import OffersList from './components/offers-list/offers-list';
-import Header from '../../components/header/header';
-import Map from '../../components/map/map';
-import { useState } from 'react';
+import { OffersList } from './components/offers-list/offers-list';
+import { Header } from '../../components/header/header';
+import { Map } from '../../components/map/map';
+import { useCallback, useMemo, useState } from 'react';
 import OffersFilter from './components/offers-filter/offers-filter';
 import { getWordEndingByCount } from '../../utils/common';
 import { getSortedOfferPreviews } from '../../utils/offer';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { setCurrentCity } from '../../store/action';
 import { Cities, CityName, SortingOptions } from '../../const';
 import { CitiesList } from './components/cities-list/cities-list';
+import { getActiveCity } from '../../store/active-city-data/selectors';
+import { getOffers } from '../../store/offers-data/selectors';
+import { setActiveCity } from '../../store/active-city-data/active-city-data';
 
 function MainPage(): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<OfferPreview['id'] | null>(null);
   const [activeSortingOption, setActiveSortingOption] = useState<SortingOptions>(SortingOptions.Popular);
   const dispatch = useAppDispatch();
-  const activeCity = useAppSelector((state) => state.activeCity);
-  const offers = useAppSelector((state) => state.offers);
+  const activeCity = useAppSelector(getActiveCity);
+  const offers = useAppSelector(getOffers);
 
-  const filteredOffers = offers.filter((offer) => offer.city.name === activeCity.name);
-  const sortedOffers = getSortedOfferPreviews(filteredOffers, activeSortingOption);
+  const sortedOffers = useMemo(() => {
+    const filteredOffers = offers.filter((offer) => offer.city.name === activeCity.name);
+    return getSortedOfferPreviews(filteredOffers, activeSortingOption);
+  }, [offers, activeCity, activeSortingOption]);
 
-  const handleChangeCity = (cityName: CityName) => {
-    dispatch(setCurrentCity(Cities[cityName]));
-  };
+  const handleChangeCity = useCallback((cityName: CityName) => {
+    dispatch(setActiveCity(Cities[cityName]));
+  }, [dispatch]);
 
-  const onSortingOptionChange = (option : SortingOptions) => {
+  const onSortingOptionChange = useCallback((option : SortingOptions) => {
     setActiveSortingOption(option);
-  };
+  }, []);
+
+  const onMouseOverOffer = useCallback(setActiveOfferId, [setActiveOfferId]);
+  const onMouseLeaveOffer = useCallback(() => setActiveOfferId(null), []);
 
   return (
     <div className="page page--gray page--main">
@@ -59,8 +66,8 @@ function MainPage(): JSX.Element {
                 <OffersList
                   offers={sortedOffers}
                   block="cities"
-                  onMouseOver={setActiveOfferId}
-                  onMouseLeave={() => setActiveOfferId(null)}
+                  onMouseOver={onMouseOverOffer}
+                  onMouseLeave={onMouseLeaveOffer}
                 />
               </div>
             </section>

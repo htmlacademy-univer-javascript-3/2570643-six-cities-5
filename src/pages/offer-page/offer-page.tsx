@@ -2,21 +2,22 @@ import { Helmet } from 'react-helmet-async';
 import { MAX_NEARBY_OFFERS_COUNT } from '../../const';
 import { useParams } from 'react-router-dom';
 import OfferDetails from './components/offer-details/offer-details';
-import Header from '../../components/header/header';
-import NearbyOffersList from './components/nearby-offers-list/nearby-offers-list';
+import { Header } from '../../components/header/header';
+import { NearbyOffersList } from './components/nearby-offers-list/nearby-offers-list';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useEffect } from 'react';
 import { fetchOfferPageInformation } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import Spinner from '../../components/spinner/spinner';
+import { getOffer, getOfferPageDataLoadingStatus, getOffersNearby, getReviews } from '../../store/offer-data/selectors';
 
 function OfferPage(): JSX.Element {
   const { offerId } = useParams();
   const dispatch = useAppDispatch();
-  const offer = useAppSelector((state) => state.offerDetails);
-  const offersNearby = useAppSelector((state) => state.offersNearby).slice(0, MAX_NEARBY_OFFERS_COUNT);
-  const offerReviews = useAppSelector((state) => state.offerReviews);
-  const isOfferPageDataLoading = useAppSelector((state) => state.isOfferPageDataLoading);
+  const offer = useAppSelector(getOffer);
+  const offersNearby = useAppSelector(getOffersNearby).slice(0, MAX_NEARBY_OFFERS_COUNT);
+  const offerReviews = useAppSelector(getReviews);
+  const isOfferPageDataLoading = useAppSelector(getOfferPageDataLoadingStatus);
 
   useEffect(() => {
     if (offerId) {

@@ -6,12 +6,14 @@ import { useAppSelector } from '../../hooks/use-app-selector';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { login } from '../../store/api-actions';
 import { toast } from 'react-toastify';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
+import { getActiveCity } from '../../store/active-city-data/selectors';
 
 function LoginPage(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const activeCity = useAppSelector((state) => state.activeCity);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const activeCity = useAppSelector(getActiveCity);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
