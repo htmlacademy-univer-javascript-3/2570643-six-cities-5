@@ -22,6 +22,13 @@ export enum APIRoute {
   Comments = '/comments'
 }
 
+export enum NameSpace {
+  User = 'User',
+  Offer = 'Offer',
+  Offers = 'Offers',
+  ActiveCity = 'City'
+}
+
 export enum SortingOptions {
   Popular = 'Popular',
   PriceLowToHigh = 'Price: low to high',

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, memo, useCallback, useState } from 'react';
 import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../../../const';
 import { toast } from 'react-toastify';
 import { sendReview } from '../../../../store/api-actions';
@@ -16,7 +16,7 @@ type ReviewFormProps = {
   offerId: string;
 }
 
-function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
+function ReviewFormComponent({offerId}: ReviewFormProps): JSX.Element {
   const [data, setData] = useState({comment: '', rating: ''});
   const isValid =
     data.comment.length >= MIN_COMMENT_LENGTH &&
@@ -24,15 +24,15 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
     data.rating !== '';
   const dispatch = useAppDispatch();
 
-  const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextareaChange = useCallback((evt: ChangeEvent<HTMLTextAreaElement>) => {
     setData((state) => ({ ...state, comment: evt.target.value }));
-  };
+  }, []);
 
-  const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     setData((state) => ({ ...state, rating: evt.target.value }));
-  };
+  }, []);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
     const {rating, comment} = data;
 
@@ -45,7 +45,7 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
       .then(() => {
         setData({rating: '', comment: ''});
       });
-  };
+  }, [offerId, data, isValid, dispatch]);
 
   return (
     <form className="reviews__form form" onSubmit={handleSubmit}>
@@ -106,4 +106,4 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
   );
 }
 
-export default ReviewForm;
+export const ReviewForm = memo(ReviewFormComponent);

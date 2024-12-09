@@ -3,6 +3,7 @@ import { AppRoute } from '../../const';
 import { OfferPreview } from '../../types/offer';
 import { capitalize } from '../../utils/common';
 import { getRatingPercentage } from '../../utils/offer';
+import { memo } from 'react';
 
 type PlaceCardImageSize = 'little' | 'big';
 
@@ -19,7 +20,7 @@ const sizeMap: Record<PlaceCardImageSize, { width: string; height: string }> = {
   big: { width: '260', height: '200' }
 };
 
-function PlaceCard({ offer, block, imageSize = 'big', onMouseOver, onMouseLeave }: PlaceCardProps): JSX.Element {
+function PlaceCardComponent({ offer, block, imageSize = 'big', onMouseOver, onMouseLeave }: PlaceCardProps): JSX.Element {
   const { id, title, type, price, isPremium, rating, previewImage } = offer;
 
   return (
@@ -71,4 +72,4 @@ function PlaceCard({ offer, block, imageSize = 'big', onMouseOver, onMouseLeave 
   );
 }
 
-export default PlaceCard;
+export const PlaceCard = memo(PlaceCardComponent);

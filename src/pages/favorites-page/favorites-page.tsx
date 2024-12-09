@@ -1,8 +1,10 @@
 import { Helmet } from 'react-helmet-async';
 import { OfferPreview } from '../../types/offer';
-import PlaceCard from '../../components/place-card/place-card';
-import Header from '../../components/header/header';
+import { PlaceCard } from '../../components/place-card/place-card';
+import { Header } from '../../components/header/header';
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { useMemo } from 'react';
+import { getOffers } from '../../store/offers-data/selectors';
 
 function getFavoritesByCity(favorites: OfferPreview[]) {
   return favorites.reduce<{ [key: string]: OfferPreview[] }>((acc, current) => {
@@ -18,8 +20,8 @@ function getFavoritesByCity(favorites: OfferPreview[]) {
 }
 
 function FavoritesPage(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
-  const favoritesByCity = getFavoritesByCity(offers);
+  const offers = useAppSelector(getOffers);
+  const favoritesByCity = useMemo(() => getFavoritesByCity(offers), [offers]);
 
   return (
     <div className="page">

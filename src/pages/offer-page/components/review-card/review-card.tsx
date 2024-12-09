@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Review } from '../../../../types/review';
 import { formatDate } from '../../../../utils/common';
 import { getRatingPercentage } from '../../../../utils/offer';
@@ -6,7 +7,7 @@ type ReviewCardProps = {
   review: Review;
 };
 
-function ReviewCard({ review }: ReviewCardProps): JSX.Element {
+function ReviewCardComponent({ review }: ReviewCardProps): JSX.Element {
   const { user, rating, comment, date } = review;
 
   return (
@@ -37,4 +38,4 @@ function ReviewCard({ review }: ReviewCardProps): JSX.Element {
   );
 }
 
-export default ReviewCard;
+export const ReviewCard = memo(ReviewCardComponent);

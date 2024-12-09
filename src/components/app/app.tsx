@@ -11,10 +11,12 @@ import { useAppSelector } from '../../hooks/use-app-selector';
 import Spinner from '../spinner/spinner';
 import browserHistory from '../../browser-history';
 import HistoryRouter from '../history-router/history-router';
+import { getOffersDataLoadingStatus } from '../../store/offers-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 function App(): JSX.Element {
-  const isOffetsDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffetsDataLoading = useAppSelector(getOffersDataLoadingStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (isOffetsDataLoading || authorizationStatus === AuthorizationStatus.Unknown) {
     return (

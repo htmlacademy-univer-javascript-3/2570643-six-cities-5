@@ -1,7 +1,7 @@
 import { Icon, layerGroup, Marker } from 'leaflet';
 import { Location } from '../../types/location';
 import { OfferPreview } from '../../types/offer';
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import useMap from '../../hooks/use-map';
 
 type MapProps = {
@@ -43,7 +43,7 @@ function createIcon(iconConfig: IconConfig) {
   });
 }
 
-function Map({ block, location, offers, activeOfferId }: MapProps) {
+function MapComponent({ block, location, offers, activeOfferId }: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, location);
 
@@ -81,4 +81,4 @@ function Map({ block, location, offers, activeOfferId }: MapProps) {
   return <section className={`${block}__map map`} ref={mapRef} />;
 }
 
-export default Map;
+export const Map = memo(MapComponent);

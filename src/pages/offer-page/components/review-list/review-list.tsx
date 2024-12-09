@@ -1,12 +1,13 @@
+import { memo } from 'react';
 import { MAX_REVIEWS_COUNT } from '../../../../const';
 import { Review } from '../../../../types/review';
-import ReviewCard from '../review-card/review-card';
+import { ReviewCard } from '../review-card/review-card';
 
 type ReviewListProps = {
   reviews: Review[] | undefined;
 };
 
-function ReviewList({ reviews }: ReviewListProps): JSX.Element {
+function ReviewListComponent({ reviews }: ReviewListProps): JSX.Element {
   if (!reviews || reviews.length === 0) {
     return <p style={{ textAlign: 'center', fontSize: '20px' }}>Be the first to leave your review!</p>;
   }
@@ -25,4 +26,4 @@ function ReviewList({ reviews }: ReviewListProps): JSX.Element {
   );
 }
 
-export default ReviewList;
+export const ReviewList = memo(ReviewListComponent);
