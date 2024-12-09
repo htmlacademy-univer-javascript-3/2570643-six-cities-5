@@ -1,18 +1,22 @@
-import { REVIEWS_MOCK } from '../../../../mocks/reviews-mock';
-import { Offer } from '../../../../types/offer';
+import { Offer, OfferPreview } from '../../../../types/offer';
 import { capitalize } from '../../../../utils/common';
 import { getRatingPercentage } from '../../../../utils/offer';
 import ReviewForm from '../review-form/review-form';
 import ReviewList from '../review-list/review-list';
 import Map from '../../../../components/map/map';
+import { Review } from '../../../../types/review';
+import { AuthorizationStatus } from '../../../../const';
+import { useAppSelector } from '../../../../hooks/use-app-selector';
 
 type OffersDetailsProps = {
   offer: Offer;
-  offersNearby: Offer[];
+  offersNearby: OfferPreview[];
+  offerReviews: Review[];
 };
 
-function OffersDetails({ offer, offersNearby }: OffersDetailsProps): JSX.Element {
+function OffersDetails({ offer, offersNearby, offerReviews }: OffersDetailsProps): JSX.Element {
   const host = offer.host;
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   return (
     <section className="offer">
@@ -97,10 +101,12 @@ function OffersDetails({ offer, offersNearby }: OffersDetailsProps): JSX.Element
           </div>
           <section className="offer__reviews reviews">
             <h2 className="reviews__title">
-              Reviews &middot; <span className="reviews__amount">{REVIEWS_MOCK.length}</span>
+              Reviews &middot; <span className="reviews__amount">{offerReviews.length}</span>
             </h2>
-            <ReviewList reviews={REVIEWS_MOCK}/>
-            <ReviewForm />
+            <ReviewList reviews={offerReviews}/>
+            {authorizationStatus === AuthorizationStatus.Auth && (
+              <ReviewForm offerId={offer.id}/>
+            )}
           </section>
         </div>
       </div>
