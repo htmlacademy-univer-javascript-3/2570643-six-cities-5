@@ -4,12 +4,13 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { logout } from '../../store/api-actions';
 import { memo } from 'react';
-import { getAuthorizationStatus, getUserInfo } from '../../store/user-data/selectors';
+import { getAuthorizationStatus, getFavoritesCount, getUserInfo } from '../../store/user-data/selectors';
 
 function HeaderComponent(): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userInfo = useAppSelector(getUserInfo);
+  const favoritesCount = useAppSelector(getFavoritesCount);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -41,7 +42,7 @@ function HeaderComponent(): JSX.Element {
                           />
                         </div>
                         <span className="header__user-name user__name">{userInfo.name}</span>
-                        <span className="header__favorite-count">0</span>
+                        <span className="header__favorite-count">{favoritesCount}</span>
                       </Link>
                     </li>}
                   <li className="header__nav-item">

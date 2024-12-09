@@ -17,9 +17,12 @@ const offersSlice = createSlice({
     },
     setOffersDataLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
+    },
+    updateOffers: (state, action: PayloadAction<OfferPreview>) => {
+      state.offers = state.offers.map((offer) => offer.id === action.payload.id ? action.payload : offer);
     }
   }
 });
 
 export const offersReducer = offersSlice.reducer;
-export const { setOffers, setOffersDataLoadingStatus } = offersSlice.actions;
+export const { setOffers, setOffersDataLoadingStatus, updateOffers } = offersSlice.actions;
