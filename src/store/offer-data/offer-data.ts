@@ -29,9 +29,12 @@ const offerSlice = createSlice({
     },
     setOfferPageDataLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
+    },
+    updateOffersNearby: (state, action: PayloadAction<OfferPreview>) => {
+      state.offersNearby = state.offersNearby.map((offer) => offer.id === action.payload.id ? action.payload : offer);
     }
   },
 });
 
 export const offerReducer = offerSlice.reducer;
-export const { setOffer, setOffersNearby, setReviews, addReview, setOfferPageDataLoadingStatus } = offerSlice.actions;
+export const { setOffer, setOffersNearby, setReviews, addReview, setOfferPageDataLoadingStatus, updateOffersNearby } = offerSlice.actions;

@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { OfferPreview } from '../../types/offer';
 import { capitalize } from '../../utils/common';
 import { getRatingPercentage } from '../../utils/offer';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { changeFavoriteStatus } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
+import { redirectToRoute } from '../../store/action';
 
 type PlaceCardImageSize = 'little' | 'big';
 
@@ -21,7 +26,17 @@ const sizeMap: Record<PlaceCardImageSize, { width: string; height: string }> = {
 };
 
 function PlaceCardComponent({ offer, block, imageSize = 'big', onMouseOver, onMouseLeave }: PlaceCardProps): JSX.Element {
-  const { id, title, type, price, isPremium, rating, previewImage } = offer;
+  const { id, title, type, price, isPremium, rating, previewImage, isFavorite } = offer;
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const dispatch = useAppDispatch();
+
+  const handleToBookmarksClick = useCallback(() => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+      return;
+    }
+    dispatch(changeFavoriteStatus({ offerId: id, status: isFavorite ? 0 : 1 }));
+  }, [authorizationStatus, isFavorite, id, dispatch]);
 
   return (
     <article
@@ -50,7 +65,13 @@ function PlaceCardComponent({ offer, block, imageSize = 'big', onMouseOver, onMo
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button
+            className={`place-card__bookmark-button button${authorizationStatus === AuthorizationStatus.Auth && isFavorite
+              ? ' place-card__bookmark-button--active'
+              : ''}`}
+            type="button"
+            onClick={handleToBookmarksClick}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

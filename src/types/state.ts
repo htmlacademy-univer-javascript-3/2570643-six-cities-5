@@ -12,6 +12,7 @@ export type AppDispatch = typeof store.dispatch;
 export type UserData = {
   authorizationStatus: AuthorizationStatus;
   userInfo: UserInfo | null;
+  favorites: OfferPreview[];
 }
 
 export type OfferData = {

@@ -14,6 +14,7 @@ import { CitiesList } from './components/cities-list/cities-list';
 import { getActiveCity } from '../../store/active-city-data/selectors';
 import { getOffers } from '../../store/offers-data/selectors';
 import { setActiveCity } from '../../store/active-city-data/active-city-data';
+import EmptyOfferList from './components/empty-offer-list/empty-offer-list';
 
 function MainPage(): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<OfferPreview['id'] | null>(null);
@@ -44,7 +45,7 @@ function MainPage(): JSX.Element {
         <title>6 cities.</title>
       </Helmet>
       <Header />
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index${offers.length === 0 ? ' page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <CitiesList
@@ -54,32 +55,33 @@ function MainPage(): JSX.Element {
           />
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{sortedOffers.length} place{getWordEndingByCount(sortedOffers.length)} to stay in {activeCity.name}</b>
-              <OffersFilter
-                activeOption={activeSortingOption}
-                onChange={onSortingOptionChange}
-              />
-              <div className="cities__places-list places__list tabs__content">
-                <OffersList
-                  offers={sortedOffers}
+          {offers.length === 0 ? <EmptyOfferList activeCityName={activeCity.name} /> :
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found">{sortedOffers.length} place{getWordEndingByCount(sortedOffers.length)} to stay in {activeCity.name}</b>
+                <OffersFilter
+                  activeOption={activeSortingOption}
+                  onChange={onSortingOptionChange}
+                />
+                <div className="cities__places-list places__list tabs__content">
+                  <OffersList
+                    offers={sortedOffers}
+                    block="cities"
+                    onMouseOver={onMouseOverOffer}
+                    onMouseLeave={onMouseLeaveOffer}
+                  />
+                </div>
+              </section>
+              <div className="cities__right-section">
+                <Map
                   block="cities"
-                  onMouseOver={onMouseOverOffer}
-                  onMouseLeave={onMouseLeaveOffer}
+                  offers={sortedOffers}
+                  location={activeCity.location}
+                  activeOfferId={activeOfferId}
                 />
               </div>
-            </section>
-            <div className="cities__right-section">
-              <Map
-                block="cities"
-                offers={sortedOffers}
-                location={activeCity.location}
-                activeOfferId={activeOfferId}
-              />
-            </div>
-          </div>
+            </div>}
         </div>
       </main>
     </div>

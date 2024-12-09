@@ -5,9 +5,14 @@ import { ReviewForm } from '../review-form/review-form';
 import { ReviewList } from '../review-list/review-list';
 import { Map } from '../../../../components/map/map';
 import { Review } from '../../../../types/review';
-import { AuthorizationStatus } from '../../../../const';
+import { AppRoute, AuthorizationStatus } from '../../../../const';
 import { useAppSelector } from '../../../../hooks/use-app-selector';
 import { getAuthorizationStatus } from '../../../../store/user-data/selectors';
+import { redirectToRoute } from '../../../../store/action';
+import { changeFavoriteStatus } from '../../../../store/api-actions';
+import { useCallback } from 'react';
+import { useAppDispatch } from '../../../../hooks/use-app-dispatch';
+import { setOffer } from '../../../../store/offer-data/offer-data';
 
 type OffersDetailsProps = {
   offer: Offer;
@@ -17,13 +22,25 @@ type OffersDetailsProps = {
 
 function OffersDetails({ offer, offersNearby, offerReviews }: OffersDetailsProps): JSX.Element {
   const host = offer.host;
+  const {id, isFavorite, isPremium, title, rating, type, maxAdults, bedrooms, price, goods, description, city, images} = offer;
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const dispatch = useAppDispatch();
+
+  const handleToBookmarksClick = useCallback(() => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+      return;
+    }
+    dispatch(changeFavoriteStatus({ offerId: id, status: isFavorite ? 0 : 1 }));
+    const updatedOffer = { ...offer, isFavorite: !isFavorite };
+    dispatch(setOffer(updatedOffer));
+  }, [authorizationStatus, offer, id, isFavorite, dispatch]);
 
   return (
     <section className="offer">
       <div className="offer__gallery-container container">
         <div className="offer__gallery">
-          {offer.images.map((image, index) => (
+          {images.map((image, index) => (
             // eslint-disable-next-line
             <div className="offer__image-wrapper" key={index}>
               <img className="offer__image" src={image} alt="Photo studio" />
@@ -33,16 +50,22 @@ function OffersDetails({ offer, offersNearby, offerReviews }: OffersDetailsProps
       </div>
       <div className="offer__container container">
         <div className="offer__wrapper">
-          {offer.isPremium && (
+          {isPremium && (
             <div className="offer__mark">
               <span>Premium</span>
             </div>
           )}
           <div className="offer__name-wrapper">
             <h1 className="offer__name">
-              {offer.title}
+              {title}
             </h1>
-            <button className="offer__bookmark-button button" type="button">
+            <button
+              className={`offer__bookmark-button button${authorizationStatus === AuthorizationStatus.Auth && isFavorite
+                ? ' offer__bookmark-button--active'
+                : ''}`}
+              type="button"
+              onClick={handleToBookmarksClick}
+            >
               <svg className="offer__bookmark-icon" width="31" height="33">
                 <use xlinkHref="#icon-bookmark"></use>
               </svg>
@@ -51,30 +74,30 @@ function OffersDetails({ offer, offersNearby, offerReviews }: OffersDetailsProps
           </div>
           <div className="offer__rating rating">
             <div className="offer__stars rating__stars">
-              <span style={{width: getRatingPercentage(offer.rating)}}></span>
+              <span style={{width: getRatingPercentage(rating)}}></span>
               <span className="visually-hidden">Rating</span>
             </div>
-            <span className="offer__rating-value rating__value">{offer.rating}</span>
+            <span className="offer__rating-value rating__value">{rating}</span>
           </div>
           <ul className="offer__features">
             <li className="offer__feature offer__feature--entire">
-              {capitalize(offer.type)}
+              {capitalize(type)}
             </li>
             <li className="offer__feature offer__feature--bedrooms">
-              {`${offer.bedrooms} Bedrooms`}
+              {`${bedrooms} Bedrooms`}
             </li>
             <li className="offer__feature offer__feature--adults">
-              {`Max ${offer.maxAdults} adults`}
+              {`Max ${maxAdults} adults`}
             </li>
           </ul>
           <div className="offer__price">
-            <b className="offer__price-value">&euro;{offer.price}</b>
+            <b className="offer__price-value">&euro;{price}</b>
             <span className="offer__price-text">&nbsp;night</span>
           </div>
           <div className="offer__inside">
             <h2 className="offer__inside-title">What&apos;s inside</h2>
             <ul className="offer__inside-list">
-              {offer.goods.map((good) => (
+              {goods.map((good) => (
                 <li className="offer__inside-item" key={good}>
                   {good}
                 </li>
@@ -97,7 +120,7 @@ function OffersDetails({ offer, offersNearby, offerReviews }: OffersDetailsProps
               )}
             </div>
             <div className="offer__description">
-              <p className="offer__text" dangerouslySetInnerHTML={{ __html: offer.description }} />
+              <p className="offer__text" dangerouslySetInnerHTML={{ __html: description }} />
             </div>
           </div>
           <section className="offer__reviews reviews">
@@ -106,7 +129,7 @@ function OffersDetails({ offer, offersNearby, offerReviews }: OffersDetailsProps
             </h2>
             <ReviewList reviews={offerReviews}/>
             {authorizationStatus === AuthorizationStatus.Auth && (
-              <ReviewForm offerId={offer.id}/>
+              <ReviewForm offerId={id}/>
             )}
           </section>
         </div>
@@ -114,7 +137,7 @@ function OffersDetails({ offer, offersNearby, offerReviews }: OffersDetailsProps
       <section className="offer__map map">
         <Map
           block="offer"
-          location={offer.city.location}
+          location={city.location}
           offers={offersNearby}
           activeOfferId={null}
         />
