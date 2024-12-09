@@ -1,8 +1,8 @@
-import { Offer } from '../../../../types/offer';
+import { OfferPreview } from '../../../../types/offer';
 import OffersList from '../../../main-page/components/offers-list/offers-list';
 
 type NearbyOffersListProps = {
-  offers: Offer[];
+  offers: OfferPreview[];
 };
 
 function NearbyOffersList({ offers }: NearbyOffersListProps): JSX.Element {

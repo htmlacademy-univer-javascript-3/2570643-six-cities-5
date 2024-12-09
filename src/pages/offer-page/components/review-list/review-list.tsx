@@ -12,6 +12,7 @@ function ReviewList({ reviews }: ReviewListProps): JSX.Element {
   }
 
   const sortedReviews = reviews
+    .slice()
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, MAX_REVIEWS_COUNT);
 

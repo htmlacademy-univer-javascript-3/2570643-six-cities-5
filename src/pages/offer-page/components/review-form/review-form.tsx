@@ -1,5 +1,8 @@
-import { ChangeEvent, Fragment, useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
 import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../../../const';
+import { toast } from 'react-toastify';
+import { sendReview } from '../../../../store/api-actions';
+import { useAppDispatch } from '../../../../hooks/use-app-dispatch';
 
 const ratingMap = {
   '1': 'terribly',
@@ -9,12 +12,17 @@ const ratingMap = {
   '5': 'perfect'
 };
 
-function ReviewForm(): JSX.Element {
+type ReviewFormProps = {
+  offerId: string;
+}
+
+function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
   const [data, setData] = useState({comment: '', rating: ''});
   const isValid =
     data.comment.length >= MIN_COMMENT_LENGTH &&
     data.comment.length <= MAX_COMMENT_LENGTH &&
     data.rating !== '';
+  const dispatch = useAppDispatch();
 
   const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setData((state) => ({ ...state, comment: evt.target.value }));
@@ -24,11 +32,27 @@ function ReviewForm(): JSX.Element {
     setData((state) => ({ ...state, rating: evt.target.value }));
   };
 
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const {rating, comment} = data;
+
+    if (!isValid) {
+      toast.warning('The review must contain rating and comment must be from 50 to 300 characters');
+      return;
+    }
+
+    dispatch(sendReview({offerId, comment, rating: Number(rating)}))
+      .then(() => {
+        setData({rating: '', comment: ''});
+      });
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {Object.entries(ratingMap)
+          .sort(([firstScore,], [secondScore,]) => Number(secondScore) - Number(firstScore))
           .map(([score, title]) => (
             <Fragment key={score}>
               <input

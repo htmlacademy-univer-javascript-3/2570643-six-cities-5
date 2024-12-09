@@ -1,23 +1,32 @@
 import { Helmet } from 'react-helmet-async';
-import { AppRoute, MAX_NEARBY_OFFERS_COUNT } from '../../const';
-import { Navigate, useParams } from 'react-router-dom';
+import { MAX_NEARBY_OFFERS_COUNT } from '../../const';
+import { useParams } from 'react-router-dom';
 import OfferDetails from './components/offer-details/offer-details';
 import Header from '../../components/header/header';
 import NearbyOffersList from './components/nearby-offers-list/nearby-offers-list';
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { useEffect } from 'react';
+import { fetchOfferPageInformation } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import Spinner from '../../components/spinner/spinner';
 
 function OfferPage(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
   const { offerId } = useParams();
-  const offer = offers.find((item) => item.id === offerId);
+  const dispatch = useAppDispatch();
+  const offer = useAppSelector((state) => state.offerDetails);
+  const offersNearby = useAppSelector((state) => state.offersNearby).slice(0, MAX_NEARBY_OFFERS_COUNT);
+  const offerReviews = useAppSelector((state) => state.offerReviews);
+  const isOfferPageDataLoading = useAppSelector((state) => state.isOfferPageDataLoading);
 
-  if (!offer) {
-    return <Navigate to={AppRoute.OfferNotFound} />;
+  useEffect(() => {
+    if (offerId) {
+      dispatch(fetchOfferPageInformation(offerId));
+    }
+  }, [offerId, dispatch]);
+
+  if (!offer || isOfferPageDataLoading) {
+    return <Spinner />;
   }
-
-  const offersNearby = offers
-    .filter((item) => item.id !== offerId)
-    .slice(0, MAX_NEARBY_OFFERS_COUNT);
 
   return (
     <div className="page">
@@ -29,6 +38,7 @@ function OfferPage(): JSX.Element {
         <OfferDetails
           offer={offer}
           offersNearby={offersNearby}
+          offerReviews={offerReviews}
         />
         <div className="container">
           <NearbyOffersList offers={offersNearby}/>
