@@ -97,6 +97,8 @@ export const Cities: { [name in CityName]: City } = {
   }
 };
 
+export const MAX_OFFER_IMAGES_COUNT = 6;
+
 export const MAX_REVIEWS_COUNT = 10;
 
 export const MAX_COMMENT_LENGTH = 300;

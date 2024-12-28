@@ -16,8 +16,8 @@ function CitiesListComponent({ cities, activeCityName, onChangeCity }: CitiesLis
             <a
               className={`locations__item-link tabs__item ${city === activeCityName ? 'tabs__item--active' : ''}`}
               href="#"
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={(evt) => {
+                evt.preventDefault();
                 onChangeCity(city);
               }}
             >

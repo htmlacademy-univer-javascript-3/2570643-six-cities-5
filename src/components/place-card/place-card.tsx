@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { OfferPreview } from '../../types/offer';
 import { capitalize } from '../../utils/common';
-import { getRatingPercentage } from '../../utils/offer';
+import { getStarRatingPercentage } from '../../utils/offer';
 import { memo, useCallback } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { changeFavoriteStatus } from '../../store/api-actions';
@@ -80,7 +80,7 @@ function PlaceCardComponent({ offer, block, imageSize = 'big', onMouseOver, onMo
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: getRatingPercentage(rating)}}></span>
+            <span style={{width: getStarRatingPercentage(rating)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

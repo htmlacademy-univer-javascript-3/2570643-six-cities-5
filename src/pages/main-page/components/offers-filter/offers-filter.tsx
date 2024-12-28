@@ -15,6 +15,7 @@ function OffersFilter({activeOption, onChange}: OffersFilterProps): JSX.Element 
 
   const handleOptionClick = (option: SortingOptions) => {
     onChange(option);
+    setIsVisible(false);
   };
 
   return (
