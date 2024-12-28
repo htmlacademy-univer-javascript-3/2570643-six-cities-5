@@ -18,7 +18,9 @@ type ReviewFormProps = {
 
 function ReviewFormComponent({offerId}: ReviewFormProps): JSX.Element {
   const [data, setData] = useState({comment: '', rating: ''});
+  const [isSending, setIsSending] = useState(false);
   const isValid =
+    !isSending &&
     data.comment.length >= MIN_COMMENT_LENGTH &&
     data.comment.length <= MAX_COMMENT_LENGTH &&
     data.rating !== '';
@@ -32,8 +34,9 @@ function ReviewFormComponent({offerId}: ReviewFormProps): JSX.Element {
     setData((state) => ({ ...state, rating: evt.target.value }));
   }, []);
 
-  const handleSubmit = useCallback((e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = useCallback((evt: FormEvent) => {
+    evt.preventDefault();
+    setIsSending(true);
     const {rating, comment} = data;
 
     if (!isValid) {
@@ -44,6 +47,7 @@ function ReviewFormComponent({offerId}: ReviewFormProps): JSX.Element {
     dispatch(sendReview({offerId, comment, rating: Number(rating)}))
       .then(() => {
         setData({rating: '', comment: ''});
+        setIsSending(false);
       });
   }, [offerId, data, isValid, dispatch]);
 

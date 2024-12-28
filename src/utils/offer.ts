@@ -1,8 +1,8 @@
 import { SortingOptions } from '../const';
 import { OfferPreview } from '../types/offer';
 
-function getRatingPercentage(rating: number) {
-  return `${20 * rating}%`;
+function getStarRatingPercentage(rating: number) {
+  return `${20 * Math.round(rating)}%`;
 }
 
 function getSortedOfferPreviews(offers: OfferPreview[], sortingOption: SortingOptions) {
@@ -18,4 +18,4 @@ function getSortedOfferPreviews(offers: OfferPreview[], sortingOption: SortingOp
   }
 }
 
-export { getRatingPercentage, getSortedOfferPreviews };
+export { getStarRatingPercentage, getSortedOfferPreviews };

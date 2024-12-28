@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Review } from '../../../../types/review';
 import { formatDate } from '../../../../utils/common';
-import { getRatingPercentage } from '../../../../utils/offer';
+import { getStarRatingPercentage } from '../../../../utils/offer';
 
 type ReviewCardProps = {
   review: Review;
@@ -27,7 +27,7 @@ function ReviewCardComponent({ review }: ReviewCardProps): JSX.Element {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: getRatingPercentage(rating) }}></span>
+            <span style={{ width: getStarRatingPercentage(rating) }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
