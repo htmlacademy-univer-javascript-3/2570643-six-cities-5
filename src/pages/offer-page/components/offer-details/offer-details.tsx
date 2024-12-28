@@ -1,11 +1,11 @@
 import { Offer, OfferPreview } from '../../../../types/offer';
 import { capitalize } from '../../../../utils/common';
-import { getRatingPercentage } from '../../../../utils/offer';
+import { getStarRatingPercentage } from '../../../../utils/offer';
 import { ReviewForm } from '../review-form/review-form';
 import { ReviewList } from '../review-list/review-list';
 import { Map } from '../../../../components/map/map';
 import { Review } from '../../../../types/review';
-import { AppRoute, AuthorizationStatus } from '../../../../const';
+import { AppRoute, AuthorizationStatus, MAX_OFFER_IMAGES_COUNT } from '../../../../const';
 import { useAppSelector } from '../../../../hooks/use-app-selector';
 import { getAuthorizationStatus } from '../../../../store/user-data/selectors';
 import { redirectToRoute } from '../../../../store/action';
@@ -21,8 +21,8 @@ type OffersDetailsProps = {
 };
 
 function OffersDetails({ offer, offersNearby, offerReviews }: OffersDetailsProps): JSX.Element {
-  const host = offer.host;
-  const {id, isFavorite, isPremium, title, rating, type, maxAdults, bedrooms, price, goods, description, city, images} = offer;
+  const images = offer.images.slice(0, MAX_OFFER_IMAGES_COUNT);
+  const {id, isFavorite, isPremium, title, rating, type, maxAdults, bedrooms, price, goods, description, city, host} = offer;
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
 
@@ -74,7 +74,7 @@ function OffersDetails({ offer, offersNearby, offerReviews }: OffersDetailsProps
           </div>
           <div className="offer__rating rating">
             <div className="offer__stars rating__stars">
-              <span style={{width: getRatingPercentage(rating)}}></span>
+              <span style={{width: getStarRatingPercentage(rating)}}></span>
               <span className="visually-hidden">Rating</span>
             </div>
             <span className="offer__rating-value rating__value">{rating}</span>
@@ -138,8 +138,8 @@ function OffersDetails({ offer, offersNearby, offerReviews }: OffersDetailsProps
         <Map
           block="offer"
           location={city.location}
-          offers={offersNearby}
-          activeOfferId={null}
+          offers={offersNearby.concat(offer)}
+          activeOfferId={id}
         />
       </section>
     </section>
